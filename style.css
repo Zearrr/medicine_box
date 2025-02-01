@@ -1,100 +1,242 @@
 /* ตั้งค่าพื้นฐานของหน้าเว็บ */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 20px;
+  transition: background-color 0.4s, color 0.4s;
 }
 
-/* สไตล์ส่วน header */
+/* โหมดกลางคืนและกลางวัน */
+body.night-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+body.day-mode {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* header โดยใช้ flex เพื่อจัดวางเนื้อหา */
 header {
-    background: #333;
-    color: white;
-    padding: 15px 0;
-    text-align: center;
-    border-radius: 10px;
-    width: 100%;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background: #333;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;           /* ใช้ flexbox เพื่อจัดการตำแหน่ง */
+  justify-content: center; /* จัดกลางในแนวนอน */
+  align-items: center;     /* จัดกลางในแนวตั้ง */
 }
 
-/* กำหนดรูปแบบให้ container หลัก */
+/* จัดวางเนื้อหาภายใน header โดยให้หัวเรื่องอยู่ด้านซ้ายและปุ่มสวิตช์อยู่ด้านขวา */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 0 20px;
+}
+
+/* สไตล์สำหรับปุ่มสวิตช์ */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+.switch input {
+  opacity: 0; /* ซ่อน input checkbox */
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc; /* สีพื้นหลังเมื่อโหมดเป็นกลางวัน */
+  transition: 0.4s;
+  border-radius: 30px; /* ขอบกลม */
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  left: 2px;
+  bottom: 2px;
+  background-color: rgb(255, 255, 255); /* สีของลูกบอลในสวิตช์ */
+  transition: 0.4s;
+}
+
+/* เมื่อสวิตช์ถูกเลือก (โหมดกลางคืน) */
+input:checked + .slider {
+  background-color: #979797;
+}
+
+input:checked + .slider:before {
+  transform: translateX(25px);
+}
+
+/* สไตล์เมื่อโฮเวอร์ที่สวิตช์ */
+.switch:hover .slider {
+  background-color: #999;
+}
+
+/* container สำหรับรายละเอียดและปุ่ม ให้อยู่ตรงกลาง */
 .container {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 600px;
-    text-align: center;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  transition: background-color 0.4s, color 0.4s;
+}
+
+/* ปรับ container ตามโหมด */
+body.night-mode .container {
+  background-color: #333;
+  color: #fff;
+}
+
+body.day-mode .container {
+  background-color: #fff;
+  color: #000;
 }
 
 /* ใช้ CSS Grid จัด 4 ช่องเป็น 2x2 */
 .menu {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* แบ่งเป็น 2 คอลัมน์ */
-    gap: 15px; /* ระยะห่างระหว่างช่อง */
-    margin-top: 15px;
-    transform: translateY(20px);
-    transition: opacity 1s ease-out, transform 1s ease-out;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 15px;
+  transform: translateY(20px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
 }
+
 .menu.show {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* สไตล์สำหรับ .item */
 .item {
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* สไตล์สำหรับปรับสีรายละเอียด */
+/* สไตล์สำหรับหัวข้อใน .item */
 .item h3 {
-    margin-bottom: 10px;
-    color: #000000;
+  margin-bottom: 10px;
+  color: #000;
 }
 
-/* สไตล์ส่วนขนาดรายละเอียด */
+/* ปรับการจัดตำแหน่งของ textarea ให้ตรงกลาง */
 textarea {
+  width: 80%;               /* ขนาดความกว้างของ textarea */
+  max-width: 600px;         /* ขนาดสูงสุดของ textarea */
+  height: 80px;             /* ความสูงของ textarea */
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  resize: none;
+  transition: all 0.3s ease;
+  text-align: center;       /* จัดข้อความใน textarea ให้อยู่กลาง */
+  line-height: 50px;        /* จัดข้อความใน textarea ให้อยู่กลางในแนวตั้ง */
+  position: relative;
+  top: 25%;                 /* ย้าย textarea ลงมาที่กลางของพื้นที่ */
+  transform: translateY(-50%);  /* ปรับตำแหน่งให้กลางแนวตั้ง */
+}
+
+/* เมื่อ textarea อยู่ในสถานะ focus */
+textarea:focus {
+  border-color: #000;
+  outline: none;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-50%) scale(1.05);  /* เพิ่ม effect เมื่อ focus */
+}
+
+
+/* สไตล์สำหรับปุ่ม */
+.button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+.button:hover {
+  background: #666;
+  transform: scale(1.05);
+}
+
+/* Media Queries สำหรับอุปกรณ์มือถือ */
+@media (max-width: 480px) {
+  .menu {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
     width: 100%;
-    height: 80px;
-    border: 1px solid #000000;
+    padding: 15px;
+  }
+
+/* ปรับการจัดตำแหน่งข้อความใน textarea ให้อยู่ตรงกลาง */
+/* กรอบของ textarea */
+  textarea {
+    width: 80%;               /* ขนาดความกว้างของ textarea */
+    max-width: 600px;         /* ขนาดสูงสุดของ textarea */
+    height: 80px;             /* ความสูงของ textarea */
+    border: 1px solid #000;
     border-radius: 10px;
     padding: 10px;
     font-size: 14px;
     resize: none;
     transition: all 0.3s ease;
+    text-align: center;       /* จัดข้อความใน textarea ให้อยู่กลาง */
+    line-height: 60px;        /* จัดข้อความใน textarea ให้อยู่กลางในแนวตั้ง */
+  }
+
+  .button {
+    width: 100%;
+    font-size: 18px;
+  }
 }
 
-/* ปรับสไตล์เมื่อกดเพื่อเพิ่มรายละเอียด */
-textarea:focus {
-    border-color: #000000;
-    outline: none;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-}
+/* Media Queries สำหรับแท็บเล็ต */
+@media (min-width: 481px) and (max-width: 768px) {
+  .menu {
+    grid-template-columns: 1fr 1fr;
+  }
 
-/* สไตล์สำหรับปุ่ม */
-.button {
-    background: #000;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    transition: background 0.3s ease, transform 0.2s;
-}
-
-/* เพิ่มเอฟเฟกต์เมื่อ กดปุ่มยืนยัน */
-.button:hover {
-    background: #666;
-    transform: scale(1.05);
+  .container {
+    max-width: 500px;
+  }
 }
